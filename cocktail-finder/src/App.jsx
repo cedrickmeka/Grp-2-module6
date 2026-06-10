@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,33 +18,51 @@ function App() {
 
   return (
     <div className="app">
-      <h1>🍹 Cocktail Finder</h1>
+      <header>
+        <h1>🍹 Cocktail Finder</h1>
 
-      <div>
-        <input
-          type="text"
-          placeholder="Search for a cocktail..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search for a cocktail..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                searchDrinks();
+              }
+            }}
+          />
 
-        <button onClick={searchDrinks}>
-          Search
-        </button>
-      </div>
+          <button onClick={searchDrinks}>
+            Search
+          </button>
+        </div>
+      </header>
 
-      <div>
-        {drinks.map((drink) => (
-          <div key={drink.idDrink}>
-            <h3>{drink.strDrink}</h3>
+      <div className="drinks-grid">
+        {drinks.map((drink, index) => (
+          <div className="drink-card" key={drink.idDrink}>
+            <div className="drink-number">
+              {index + 1}
+            </div>
 
             <img
               src={drink.strDrinkThumb}
               alt={drink.strDrink}
-              width="200"
             />
 
-            <p>{drink.strCategory}</p>
+            <div className="drink-info">
+              <h3>{drink.strDrink}</h3>
+
+              <p>
+                <strong>Category:</strong> {drink.strCategory}
+              </p>
+
+              <span className="category">
+                {drink.strAlcoholic}
+              </span>
+            </div>
           </div>
         ))}
       </div>
