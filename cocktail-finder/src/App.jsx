@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Navbar from "./components/Navbar";
+import SearchBar from "./components/SearchBar";
+import DrinkCard from "./components/DrinkCard";
 import "./App.css";
 
 function App() {
@@ -18,52 +21,21 @@ function App() {
 
   return (
     <div className="app">
-      <header>
-        <h1>🍹 Cocktail Finder</h1>
+      <Navbar />
 
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search for a cocktail..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                searchDrinks();
-              }
-            }}
-          />
-
-          <button onClick={searchDrinks}>
-            Search
-          </button>
-        </div>
-      </header>
+      <SearchBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        searchDrinks={searchDrinks}
+      />
 
       <div className="drinks-grid">
         {drinks.map((drink, index) => (
-          <div className="drink-card" key={drink.idDrink}>
-            <div className="drink-number">
-              {index + 1}
-            </div>
-
-            <img
-              src={drink.strDrinkThumb}
-              alt={drink.strDrink}
-            />
-
-            <div className="drink-info">
-              <h3>{drink.strDrink}</h3>
-
-              <p>
-                <strong>Category:</strong> {drink.strCategory}
-              </p>
-
-              <span className="category">
-                {drink.strAlcoholic}
-              </span>
-            </div>
-          </div>
+          <DrinkCard
+            key={drink.idDrink}
+            drink={drink}
+            index={index}
+          />
         ))}
       </div>
     </div>

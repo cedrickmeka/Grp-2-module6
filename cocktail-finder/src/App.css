@@ -154,3 +154,44 @@ button:hover {
     flex-direction: column;
   }
 }
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #6c3483;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff6b6b;
+}
+
+.favorites-page {
+  text-align: center;
+  padding: 3rem;
+}
+
+.favorites-page h2 {
+  font-size: 2.5rem;
+  color: #e63946;
+  margin-bottom: 1rem;
+}
+
+.favorites-page p {
+  font-size: 1.2rem;
+  color: #555;
+}
