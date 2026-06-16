@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import DrinkCard from "./components/DrinkCard";
+import DrinkDetails from "./pages/DrinkDetails";
+import Favorites from "./pages/Favorites";
+import { getTrendingCocktails } from "./services/cocktailApi";
 import "./App.css";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [drinks, setDrinks] = useState([]);
+
+  useEffect(() => {
+    getTrendingCocktails().then(setDrinks);
+  }, []);
 
   const searchDrinks = async () => {
     if (!searchTerm) return;
@@ -19,25 +27,36 @@ function App() {
     setDrinks(data.drinks || []);
   };
 
+
   return (
     <div className="app">
       <Navbar />
 
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        searchDrinks={searchDrinks}
-      />
-
-      <div className="drinks-grid">
-        {drinks.map((drink, index) => (
-          <DrinkCard
-            key={drink.idDrink}
-            drink={drink}
-            index={index}
-          />
-        ))}
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <SearchBar
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                searchDrinks={searchDrinks}
+              />
+              <div className="drinks-grid">
+                {drinks.map((drink, index) => (
+                  <DrinkCard
+                    key={drink.idDrink}
+                    drink={drink}
+                    index={index}
+                  />
+                ))}
+              </div>
+            </>
+          }
+        />
+        <Route path="/drink/:id" element={<DrinkDetails />} />
+        <Route path="/favorites" element={<Favorites />} />
+      </Routes>
     </div>
   );
 }
