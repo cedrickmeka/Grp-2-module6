@@ -112,7 +112,7 @@ src/
 
 ---
 
-## Author
+## Authors
 
 Ouko Sharon.
 Robert Tumsifu
