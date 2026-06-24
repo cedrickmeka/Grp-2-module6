@@ -23,7 +23,13 @@ npm run server
 npm run dev
 ```
 
-4. Visit the Vite URL shown in the terminal.
+4. Visit the app in your browser:
+
+```bash
+http://127.0.0.1:5173/
+```
+
+> If the server is running successfully, the app will be available at the above local URL.
 
 ## Features
 
