@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node server/index.js",
-    "test:ci": "node test/apiSmokeTest.js"
+    "test:ci": "node test/apiSmokeTest.js",
+    "test:integration": "node test/apiIntegrationTest.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
