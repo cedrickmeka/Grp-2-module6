@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node server/index.js"
+    "server": "node server/index.js",
+    "test:ci": "node test/apiSmokeTest.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
