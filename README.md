@@ -1,13 +1,57 @@
 # Grp-2-module6
-capstone project 1
 
-# Cocktail Finder
+## Cocktail Finder Full-Stack App
 
-## Project Description
+This project contains a full-stack cocktail recipe application built with React and a Node.js/Express backend.
 
-Cocktail Finder is a React web application that allows users to search for cocktail recipes using data from TheCocktailDB API. Users can search for drinks by name, view cocktail information, browse recipe details, and save favorite drinks for future reference.
+Users can:
 
-The application demonstrates React fundamentals including routing, state management, controlled components, API integration, and dynamic rendering.
+- Browse cocktails
+- Search by name or category
+- Create, edit, and delete cocktail recipes
+- Add and manage notes for each cocktail
+- Save favorite drinks in browser storage
+
+## Setup
+
+1. Navigate to the application folder:
+
+```bash
+cd Grp-2-module6/cocktail-finder
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the backend API server:
+
+```bash
+npm run server
+```
+
+4. Start the frontend app:
+
+```bash
+npm run dev
+```
+
+5. Open the Vite development URL shown in the terminal.
+
+---
+
+## App structure
+
+- `src/` — React frontend
+- `server/` — Express API and JSON datastore
+
+---
+
+## Notes
+
+The server persists cocktails and notes to `server/db.json`, with sample seed data on first run.
 
 ---
 

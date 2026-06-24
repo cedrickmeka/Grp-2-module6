@@ -1,0 +1,48 @@
+{
+  "cocktails": [
+    {
+      "id": "1",
+      "name": "Classic Margarita",
+      "category": "Cocktail",
+      "alcoholic": "Alcoholic",
+      "glass": "Cocktail glass",
+      "image": "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
+      "instructions": "Rub the rim of the glass with the lime slice to make the salt stick to it. Shake the other ingredients with ice, then carefully pour into the glass.",
+      "ingredients": ["Tequila", "Triple sec", "Lime juice", "Salt"]
+    },
+    {
+      "id": "2",
+      "name": "Mojito",
+      "category": "Cocktail",
+      "alcoholic": "Alcoholic",
+      "glass": "Highball glass",
+      "image": "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+      "instructions": "Muddle mint leaves with sugar and lime juice. Add rum and top with soda water. Garnish with mint sprig.",
+      "ingredients": ["Light rum", "Lime", "Sugar", "Mint", "Soda water"]
+    },
+    {
+      "id": "3",
+      "name": "Espresso Martini",
+      "category": "Cocktail",
+      "alcoholic": "Alcoholic",
+      "glass": "Martini glass",
+      "image": "https://www.thecocktaildb.com/images/media/drink/n0sx531504372951.jpg",
+      "instructions": "Add vodka, coffee liqueur, and espresso into a shaker filled with ice. Shake well and strain into a chilled glass.",
+      "ingredients": ["Vodka", "Coffee liqueur", "Fresh espresso"]
+    }
+  ],
+  "notes": [
+    {
+      "id": "1",
+      "cocktailId": "1",
+      "text": "Try using fresh lime juice for the best flavor.",
+      "createdAt": "2026-01-01T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "cocktailId": "2",
+      "text": "Lightly crush the mint to release the aroma without making it bitter.",
+      "createdAt": "2026-01-01T12:05:00.000Z"
+    }
+  ]
+}

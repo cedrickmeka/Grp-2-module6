@@ -1,19 +1,67 @@
-const BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1";
+const BASE_URL = "http://localhost:4000";
 
-export const getTrendingCocktails = async () => {
-  const terms = ["margarita", "mojito", "martini"];
-  const results = await Promise.all(terms.map((t) => searchCocktails(t)));
-  return results.flat().slice(0, 12);
-};
+async function fetchJson(url, options = {}) {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`API error ${res.status}: ${text}`);
+  }
+  return res.status === 204 ? null : res.json();
+}
 
-export const searchCocktails = async (term) => {
-  const res = await fetch(`${BASE_URL}/search.php?s=${term}`);
-  const data = await res.json();
-  return data.drinks || [];
+export const fetchCocktails = async (search = "") => {
+  const query = search ? `?search=${encodeURIComponent(search)}` : "";
+  return fetchJson(`${BASE_URL}/api/cocktails${query}`);
 };
 
 export const getCocktailById = async (id) => {
-  const res = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
-  const data = await res.json();
-  return data.drinks ? data.drinks[0] : null;
+  return fetchJson(`${BASE_URL}/api/cocktails/${id}`);
+};
+
+export const createCocktail = async (cocktail) => {
+  return fetchJson(`${BASE_URL}/api/cocktails`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cocktail),
+  });
+};
+
+export const updateCocktail = async (id, cocktail) => {
+  return fetchJson(`${BASE_URL}/api/cocktails/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cocktail),
+  });
+};
+
+export const deleteCocktail = async (id) => {
+  return fetchJson(`${BASE_URL}/api/cocktails/${id}`, {
+    method: "DELETE",
+  });
+};
+
+export const getCocktailNotes = async (cocktailId) => {
+  return fetchJson(`${BASE_URL}/api/cocktails/${cocktailId}/notes`);
+};
+
+export const createNote = async (cocktailId, text) => {
+  return fetchJson(`${BASE_URL}/api/cocktails/${cocktailId}/notes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+};
+
+export const updateNote = async (noteId, text) => {
+  return fetchJson(`${BASE_URL}/api/notes/${noteId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+};
+
+export const deleteNote = async (noteId) => {
+  return fetchJson(`${BASE_URL}/api/notes/${noteId}`, {
+    method: "DELETE",
+  });
 };

@@ -1,16 +1,106 @@
-# React + Vite
+# Cocktail Finder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cocktail Finder is a full-stack React application with a Node.js backend. It supports CRUD operations for cocktails and notes, allowing users to browse, search, create, edit, and delete recipes while managing notes for each drink.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Install dependencies:
 
-## React Compiler
+```bash
+cd Grp-2-module6/cocktail-finder
+npm install
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. Start the backend:
 
-## Expanding the ESLint configuration
+```bash
+npm run server
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. Start the frontend:
+
+```bash
+npm run dev
+```
+
+4. Visit the Vite URL shown in the terminal.
+
+## Features
+
+- Full CRUD for cocktails
+- Notes linked to individual cocktails
+- Search by name or category
+- Add and save favorite drinks locally
+- Responsive React UI with client-side routing
+
+## Structure
+
+- `src/` - React components and pages
+- `server/` - Express API and data storage
+```
+
+## Quick API tests with curl
+
+Make sure the backend is running (`npm run server`) and then try these commands from a terminal:
+
+- List all cocktails:
+
+```bash
+curl http://localhost:4000/api/cocktails
+```
+
+- Get a single cocktail by id:
+
+```bash
+curl http://localhost:4000/api/cocktails/1
+```
+
+- Create a new cocktail:
+
+```bash
+curl -X POST http://localhost:4000/api/cocktails \
+	-H 'Content-Type: application/json' \
+	-d '{"name":"Sunrise","category":"Cocktail","alcoholic":"Alcoholic","glass":"Highball glass","image":"https://example.com/img.jpg","instructions":"Mix ingredients.","ingredients":["Orange juice","Vodka"]}'
+```
+
+- Update a cocktail (replace `<id>`):
+
+```bash
+curl -X PUT http://localhost:4000/api/cocktails/<id> \
+	-H 'Content-Type: application/json' \
+	-d '{"name":"Sunrise Updated"}'
+```
+
+- Delete a cocktail (replace `<id>`):
+
+```bash
+curl -X DELETE http://localhost:4000/api/cocktails/<id>
+```
+
+- List notes for a cocktail (replace `<cocktailId>`):
+
+```bash
+curl http://localhost:4000/api/cocktails/<cocktailId>/notes
+```
+
+- Add a note to a cocktail:
+
+```bash
+curl -X POST http://localhost:4000/api/cocktails/<cocktailId>/notes \
+	-H 'Content-Type: application/json' \
+	-d '{"text":"Try with fresh fruit."}'
+```
+
+- Update a note (replace `<noteId>`):
+
+```bash
+curl -X PUT http://localhost:4000/api/notes/<noteId> \
+	-H 'Content-Type: application/json' \
+	-d '{"text":"Updated note text."}'
+```
+
+- Delete a note (replace `<noteId>`):
+
+```bash
+curl -X DELETE http://localhost:4000/api/notes/<noteId>
+```
