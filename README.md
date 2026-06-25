@@ -1,6 +1,6 @@
 # Grp-2-module6
 
-## Cocktail Finder Full-Stack App
+## Cocktail Finder App
 
 This project contains a full-stack cocktail recipe application built with React and a Node.js/Express backend.
 

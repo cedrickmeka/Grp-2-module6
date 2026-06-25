@@ -18,6 +18,18 @@ function App() {
         <Route path="/drink/:id" element={<DrinkDetails />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
+
+      <footer
+        style={{
+          textAlign: "center",
+          padding: "20px",
+          marginTop: "30px",
+          color: "#888",
+          fontSize: "14px",
+        }}
+      >
+        Cocktail Finder © 2026
+      </footer>
     </div>
   );
 }
