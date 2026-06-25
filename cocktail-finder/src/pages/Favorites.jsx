@@ -9,8 +9,8 @@ export default function Favorites() {
     setFavorites(favs);
   }, []);
 
-  const removeFavorite = (idDrink) => {
-    const updated = favorites.filter((f) => f.idDrink !== idDrink);
+  const removeFavorite = (id) => {
+    const updated = favorites.filter((f) => (f.id || f.idDrink) !== id);
     localStorage.setItem("favorites", JSON.stringify(updated));
     setFavorites(updated);
   };

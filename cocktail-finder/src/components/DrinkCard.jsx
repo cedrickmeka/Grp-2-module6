@@ -26,6 +26,7 @@ function DrinkCard({ drink, index, onRemove }) {
         ...stored,
         {
           id,
+          idDrink: id,
           strDrink: title,
           strDrinkThumb: image,
           strCategory: category,
@@ -48,6 +49,11 @@ function DrinkCard({ drink, index, onRemove }) {
       >
         <div className="drink-number">{index + 1}</div>
         <img src={image} alt={title} />
+        <div className="fav-tag-wrapper">
+          <span className={`fav-tag${isFav ? " added" : ""}`}>
+            {isFav ? "Favorited" : "Add to favorites"}
+          </span>
+        </div>
         <div className="drink-info">
           <h3>{title}</h3>
           <p><strong>Category:</strong> {category}</p>
