@@ -162,5 +162,6 @@ Ouko Sharon.
 Robert Tumsifu
 Beatrice Kogei
 Timothy Kangangi
+Cedric Meka.
 
 React Front-End Development Project @26
