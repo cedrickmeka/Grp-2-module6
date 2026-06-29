@@ -4,7 +4,16 @@ from extensions import db
 
 
 def get_all():
+    search = request.args.get("search", "").lower()
+
     cocktails = Cocktail.query.all()
+
+    if search:
+        cocktails = [
+            c for c in cocktails
+            if search in c.name.lower()
+            or search in (c.category or "").lower()
+        ]
 
     return jsonify([
         {
@@ -14,9 +23,23 @@ def get_all():
             "alcoholic": c.alcoholic,
             "glass": c.glass,
             "image": c.image,
-            "instructions": c.instructions
+            "instructions": c.instructions,
         }
         for c in cocktails
+    ])
+
+
+def get_categories():
+    categories = (
+        Cocktail.query.with_entities(Cocktail.category)
+        .distinct()
+        .all()
+    )
+
+    return jsonify([
+        category[0]
+        for category in categories
+        if category[0]
     ])
 
 
@@ -30,7 +53,7 @@ def get_one(id):
         "alcoholic": cocktail.alcoholic,
         "glass": cocktail.glass,
         "image": cocktail.image,
-        "instructions": cocktail.instructions
+        "instructions": cocktail.instructions,
     })
 
 

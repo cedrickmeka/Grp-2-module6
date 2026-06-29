@@ -15,9 +15,7 @@ export const fetchCocktails = async (search = "") => {
 };
 
 export const fetchCocktailCategories = async () => {
-  const res = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list");
-  const data = await res.json();
-  return Array.isArray(data.drinks) ? data.drinks.map((item) => item.strCategory) : [];
+  return fetchJson(`${BASE_URL}/api/cocktails/categories`);
 };
 
 export const getCocktailById = async (id) => {
