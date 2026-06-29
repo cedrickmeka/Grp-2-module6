@@ -1,0 +1,67 @@
+from flask import jsonify, request
+from models import Cocktail
+from extensions import db
+
+
+def get_all():
+    cocktails = Cocktail.query.all()
+
+    return jsonify([
+        {
+            "id": c.id,
+            "name": c.name,
+            "category": c.category,
+            "alcoholic": c.alcoholic,
+            "glass": c.glass,
+            "image": c.image,
+            "instructions": c.instructions
+        }
+        for c in cocktails
+    ])
+
+
+def get_one(id):
+    cocktail = Cocktail.query.get_or_404(id)
+
+    return jsonify({
+        "id": cocktail.id,
+        "name": cocktail.name,
+        "category": cocktail.category,
+        "alcoholic": cocktail.alcoholic,
+        "glass": cocktail.glass,
+        "image": cocktail.image,
+        "instructions": cocktail.instructions
+    })
+
+
+def create():
+    data = request.json
+
+    cocktail = Cocktail(**data)
+
+    db.session.add(cocktail)
+    db.session.commit()
+
+    return jsonify({"message": "Cocktail created"}), 201
+
+
+def update(id):
+    cocktail = Cocktail.query.get_or_404(id)
+
+    data = request.json
+
+    for key, value in data.items():
+        setattr(cocktail, key, value)
+
+    db.session.commit()
+
+    return jsonify({"message": "Cocktail updated"})
+
+
+def remove(id):
+    cocktail = Cocktail.query.get_or_404(id)
+
+    db.session.delete(cocktail)
+    db.session.commit()
+
+    return "", 204

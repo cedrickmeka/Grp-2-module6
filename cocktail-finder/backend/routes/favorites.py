@@ -1,0 +1,8 @@
+from flask import Blueprint
+from controllers.favorite_controller import *
+
+favorite_bp = Blueprint("favorites", __name__)
+
+favorite_bp.route("/api/favorites", methods=["GET"])(get_favorites)
+favorite_bp.route("/api/favorites", methods=["POST"])(add_favorite)
+favorite_bp.route("/api/favorites/<int:id>", methods=["DELETE"])(delete_favorite)

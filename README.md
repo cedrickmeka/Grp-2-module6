@@ -1,167 +1,152 @@
 # Grp-2-module6
 
-## Cocktail Finder App
+# Cocktail Finder App
 
-This project contains a full-stack cocktail recipe application built with React and a Node.js/Express backend.
+Cocktail Finder is a full-stack web application built with **React**, **Vite**, **Flask**, **SQLAlchemy**, and **PostgreSQL**. The application allows users to browse, search, create, edit, and delete cocktail recipes, manage notes, and save favorite drinks.
 
-Users can:
-
-- Browse cocktails
-- Search by name or category
-- Create, edit, and delete cocktail recipes
-- Add and manage notes for each cocktail
-- Save favorite drinks in browser storage
-
-## Setup
-
-1. Navigate to the application folder:
-
-```bash
-cd Grp-2-module6/cocktail-finder
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Start the backend API server:
-
-```bash
-npm run server
-```
-
-4. Start the frontend app:
-
-```bash
-npm run dev
-```
-
-5. Open the Vite development URL shown in the terminal.
-
----
-
-## App structure
-
-- `src/` — React frontend
-- `server/` — Express API and JSON datastore
-
----
-
-## Notes
-
-The server persists cocktails and notes to `server/db.json`, with sample seed data on first run.
-
----
 
 ## Features
 
-* Search cocktails by name
-* Display cocktail images and categories
-* View detailed cocktail information
-* Dynamic rendering of API results
+* Browse cocktail recipes
+* Search cocktails by name or category
+* View cocktail details
+* Add, edit, and delete cocktails
+* Add, edit, and delete notes
+* Save and remove favorite cocktails
 * Responsive user interface
-* Navigation using React Router
-* Favorites page for saved drinks
+* RESTful Flask API
+* PostgreSQL database with Flask-Migrate
 
----
 
 ## Technologies Used
 
+### Frontend
+
 * React
 * React Router DOM
-* JavaScript
+* JavaScript (ES6+)
 * CSS
 * Vite
-* TheCocktailDB API
 
----
+### Backend
 
-## Installation and Setup
+* Flask
+* Flask-CORS
+* Flask-SQLAlchemy
+* Flask-Migrate
 
-1. Clone the repository:
+### Database
+
+* PostgreSQL
+
+### External API
+
+* TheCocktailDB API (Cocktail Categories)
+
+
+## Installation
 
 ```bash
 git clone <repository-url>
+cd Grp-2-module6/cocktail-finder
 ```
 
-2. Navigate to the project folder:
-
-```bash
-cd cocktail-finder
-```
-
-3. Install dependencies:
+### Frontend
 
 ```bash
 npm install
-```
-
-4. Start the development server:
-
-```bash
 npm run dev
 ```
 
-5. Open the application in your browser using the URL displayed in the terminal.
+### Backend
 
----
+```bash
+cd cocktail-finder/backend
 
-## API Used
+python3 -m venv venv
+source venv/bin/activate
 
-### TheCocktailDB
+pip install -r requirements.txt
 
-Base URL:
-
-https://www.thecocktaildb.com/api/json/v1/1/
-
----
-
-## Application Structure
-
-```text
-src/
-├── components/
-│   ├── Navbar.jsx
-│   ├── SearchBar.jsx
-│   └── DrinkCard.jsx
-│
-├── pages/
-│   ├── Home.jsx
-│   ├── DrinkDetails.jsx
-│   └── Favorites.jsx
-│
-├── services/
-│   └── cocktailApi.js
-│
-├── App.jsx
-├── App.css
-├── main.jsx
-└── index.css
+python -m flask db upgrade
+python seed.py
+python app.py
 ```
 
----
+Open the React application at the Vite URL (usually `http://localhost:5173`).
 
-## React Concepts Demonstrated
+
+## Project Structure
+
+```text
+cocktail-finder/
+│
+├── backend/
+│   ├── controllers/
+│   ├── routes/
+│   ├── migrations/
+│   ├── instance/
+│   ├── app.py
+│   ├── config.py
+│   ├── extensions.py
+│   ├── models.py
+│   ├── requirements.txt
+│   └── seed.py
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── public/
+├── package.json
+└── README.md
+```
+
+## API Endpoints
+
+### Cocktails
+
+* GET `/api/cocktails`
+* GET `/api/cocktails/:id`
+* POST `/api/cocktails`
+* PUT `/api/cocktails/:id`
+* DELETE `/api/cocktails/:id`
+
+### Notes
+
+* GET `/api/cocktails/:cocktailId/notes`
+* POST `/api/cocktails/:cocktailId/notes`
+* PUT `/api/notes/:id`
+* DELETE `/api/notes/:id`
+
+### Favorites
+
+* GET `/api/favorites`
+* POST `/api/favorites`
+* DELETE `/api/favorites/:id`
+
+## React Concepts
 
 * Functional Components
-* useState Hook
-* API Fetching with async/await
+* React Hooks (`useState`, `useEffect`)
+* React Router
 * Controlled Forms
-* Dynamic Rendering with map()
-* React Router Navigation
+* Async/Await
+* REST API Integration
+* Dynamic Rendering
 * Component Reusability
-* State Management
-
----
 
 ## Authors
 
-Ouko Sharon.
-Robert Tumsifu
-Beatrice Kogei
-Timothy Kangangi
-Cedric Meka.
+* Ouko Sharon
+* Robert Tumsifu
+* Beatrice Kogei
+* Timothy Kangangi
+* Cedric Meka
 
-React Front-End Development Project @26
+**React Front-End Development Project © 2026**

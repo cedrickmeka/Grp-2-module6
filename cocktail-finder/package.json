@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "server": "node server/index.js",
     "test:ci": "node test/apiSmokeTest.js",
-    "test:integration": "node test/apiIntegrationTest.js"
+    "test:integration": "node test/apiIntegrationTest.js",
+    "start": "concurrently \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^10.0.3",
     "vite": "^4.4.9"
   }
 }
