@@ -23,6 +23,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+coverage
+.vite
+server/db.json
 
 # Editor directories and files
 .vscode/*
