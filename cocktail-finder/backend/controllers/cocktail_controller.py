@@ -60,32 +60,22 @@ def get_one(id):
 
 def create():
     data = request.json
-
     cocktail = Cocktail(**data)
-
     db.session.add(cocktail)
     db.session.commit()
-
     return jsonify({"message": "Cocktail created"}), 201
 
 
 def update(id):
     cocktail = Cocktail.query.get_or_404(id)
-
-    data = request.json
-
-    for key, value in data.items():
+    for key, value in request.json.items():
         setattr(cocktail, key, value)
-
     db.session.commit()
-
     return jsonify({"message": "Cocktail updated"})
 
 
 def remove(id):
     cocktail = Cocktail.query.get_or_404(id)
-
     db.session.delete(cocktail)
     db.session.commit()
-
     return "", 204

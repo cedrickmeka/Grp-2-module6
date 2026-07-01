@@ -5,5 +5,4 @@ class Config:
         "DATABASE_URL",
         "postgresql://postgres:password@localhost/cocktailfinder"
     )
-
     SQLALCHEMY_TRACK_MODIFICATIONS = False
