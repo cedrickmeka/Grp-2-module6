@@ -20,20 +20,37 @@ async function waitFor(url, attempts = 20, delay = 500) {
 
 (async () => {
   try {
-    await waitFor(`${BASE}/api/cocktails`);
-    const res = await fetch(`${BASE}/api/cocktails`);
+    await waitFor(`${BASE}/api/health`, 5, 500);
+
+    const signupRes = await fetch(`${BASE}/api/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Smoke User',
+        email: `smoke-${Date.now()}@example.com`,
+        password: 'SmokePass123!',
+      }),
+    });
+    if (!signupRes.ok) {
+      throw new Error(`Signup failed: ${signupRes.status}`);
+    }
+    const { token } = await signupRes.json();
+
+    const res = await fetch(`${BASE}/api/cocktails?page=1&per_page=5`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!res.ok) {
       console.error('API returned non-OK status', res.status);
       process.exit(2);
     }
 
     const data = await res.json();
-    if (!Array.isArray(data)) {
-      console.error('Unexpected payload, expected array');
+    if (!data || typeof data !== 'object' || !Array.isArray(data.items)) {
+      console.error('Unexpected payload, expected paginated object');
       process.exit(3);
     }
 
-    console.log(`Smoke test passed — ${data.length} cocktails returned`);
+    console.log(`Smoke test passed — ${data.items.length} cocktails returned`);
     process.exit(0);
   } catch (err) {
     console.error('Smoke test failed:', err.message);

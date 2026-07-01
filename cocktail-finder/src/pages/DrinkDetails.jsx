@@ -8,6 +8,7 @@ import {
   deleteNote,
   deleteCocktail,
 } from "../services/cocktailApi";
+import { isFavorite, toggleFavoriteById } from "../utils/favorites";
 
 export default function DrinkDetails() {
   const { id } = useParams();
@@ -33,8 +34,7 @@ export default function DrinkDetails() {
 
         setCocktail(data);
         setNotes(noteList);
-        const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
-        setIsFav(favs.some((f) => (f.id || f.idDrink) === id));
+        setIsFav(isFavorite(id));
       } catch (err) {
         setError("Cocktail could not be loaded.");
       } finally {
@@ -46,27 +46,13 @@ export default function DrinkDetails() {
   }, [id]);
 
   const toggleFavorite = () => {
-    const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const existing = favs.find((f) => (f.id || f.idDrink) === id);
-    let updated;
-
-    if (existing) {
-      updated = favs.filter((f) => (f.id || f.idDrink) !== id);
-    } else {
-      updated = [
-        ...favs,
-        {
-          id,
-          strDrink: cocktail.name,
-          strDrinkThumb: cocktail.image,
-          strCategory: cocktail.category,
-          strAlcoholic: cocktail.alcoholic,
-        },
-      ];
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(updated));
-    setIsFav(!existing);
+    const result = toggleFavoriteById(id, {
+      name: cocktail.name,
+      image: cocktail.image,
+      category: cocktail.category,
+      alcoholic: cocktail.alcoholic,
+    });
+    setIsFav(result.isFavorite);
   };
 
   const handleSubmitNote = async (e) => {

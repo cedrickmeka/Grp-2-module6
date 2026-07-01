@@ -16,6 +16,7 @@ function App() {
         <Route path="/drink/new" element={<CocktailForm />} />
         <Route path="/drink/:id/edit" element={<CocktailForm />} />
         <Route path="/drink/:id" element={<DrinkDetails />} />
+        <Route path="/favourites" element={<Favorites />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
 

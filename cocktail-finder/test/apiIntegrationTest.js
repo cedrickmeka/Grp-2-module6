@@ -17,7 +17,22 @@ async function waitFor(url, attempts = 20, delay = 500) {
 }
 
 async function run() {
-  await waitFor(`${BASE}/api/cocktails`);
+  await waitFor(`${BASE}/api/health`, 5, 500);
+
+  const email = `integration-${Date.now()}@example.com`;
+  const password = 'IntegrationPass123!';
+  let res = await fetch(`${BASE}/api/auth/signup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Integration User', email, password }),
+  });
+  if (res.status !== 201) throw new Error('Failed to signup: ' + res.status);
+  const auth = await res.json();
+  const token = auth.token;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
 
   // Create cocktail
   const cocktailPayload = {
@@ -30,9 +45,9 @@ async function run() {
     ingredients: ['A', 'B'],
   };
 
-  let res = await fetch(`${BASE}/api/cocktails`, {
+  res = await fetch(`${BASE}/api/cocktails`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(cocktailPayload),
   });
   if (res.status !== 201) throw new Error('Failed to create cocktail: ' + res.status);
@@ -41,7 +56,7 @@ async function run() {
   const cid = created.id;
 
   // Fetch cocktail
-  res = await fetch(`${BASE}/api/cocktails/${cid}`);
+  res = await fetch(`${BASE}/api/cocktails/${cid}`, { headers: { Authorization: `Bearer ${token}` } });
   if (res.status !== 200) throw new Error('Failed to fetch created cocktail');
   const fetched = await res.json();
   if (fetched.name !== cocktailPayload.name) throw new Error('Fetched cocktail name mismatch');
@@ -49,7 +64,7 @@ async function run() {
   // Update cocktail
   res = await fetch(`${BASE}/api/cocktails/${cid}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ name: 'CI Integration Cocktail Updated' }),
   });
   if (res.status !== 200) throw new Error('Failed to update cocktail');
@@ -59,7 +74,7 @@ async function run() {
   // Add note
   res = await fetch(`${BASE}/api/cocktails/${cid}/notes`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ text: 'Integration note' }),
   });
   if (res.status !== 201) throw new Error('Failed to create note');
@@ -68,7 +83,7 @@ async function run() {
   const nid = note.id;
 
   // Get notes
-  res = await fetch(`${BASE}/api/cocktails/${cid}/notes`);
+  res = await fetch(`${BASE}/api/cocktails/${cid}/notes`, { headers: { Authorization: `Bearer ${token}` } });
   if (res.status !== 200) throw new Error('Failed to list notes');
   const notes = await res.json();
   if (!Array.isArray(notes) || notes.findIndex((n) => n.id === nid) === -1) throw new Error('Created note not found');
@@ -76,21 +91,21 @@ async function run() {
   // Update note
   res = await fetch(`${BASE}/api/notes/${nid}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ text: 'Integration note updated' }),
   });
   if (res.status !== 200) throw new Error('Failed to update note');
 
   // Delete note
-  res = await fetch(`${BASE}/api/notes/${nid}`, { method: 'DELETE' });
+  res = await fetch(`${BASE}/api/notes/${nid}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
   if (res.status !== 204) throw new Error('Failed to delete note');
 
   // Delete cocktail
-  res = await fetch(`${BASE}/api/cocktails/${cid}`, { method: 'DELETE' });
+  res = await fetch(`${BASE}/api/cocktails/${cid}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
   if (![200,204].includes(res.status)) throw new Error('Failed to delete cocktail');
 
   // Confirm deletion
-  res = await fetch(`${BASE}/api/cocktails/${cid}`);
+  res = await fetch(`${BASE}/api/cocktails/${cid}`, { headers: { Authorization: `Bearer ${token}` } });
   if (res.status !== 404) throw new Error('Cocktail still exists after deletion');
 
   console.log('Integration tests passed');

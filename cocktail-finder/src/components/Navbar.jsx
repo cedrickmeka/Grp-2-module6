@@ -8,7 +8,7 @@ function Navbar() {
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/drink/new">Add Cocktail</Link>
-        <Link to="/favorites">Favorites</Link>
+        <Link to="/favourites">Favourites</Link>
       </div>
     </nav>
   );

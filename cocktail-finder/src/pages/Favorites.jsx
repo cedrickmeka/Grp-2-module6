@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import DrinkCard from "../components/DrinkCard";
+import { getFavorites, removeFavoriteById } from "../utils/favorites";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setFavorites(favs);
+    setFavorites(getFavorites());
   }, []);
 
   const removeFavorite = (id) => {
-    const updated = favorites.filter((f) => (f.id || f.idDrink) !== id);
-    localStorage.setItem("favorites", JSON.stringify(updated));
+    const updated = removeFavoriteById(id);
     setFavorites(updated);
   };
 
