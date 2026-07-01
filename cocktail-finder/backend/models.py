@@ -11,7 +11,6 @@ class Cocktail(db.Model):
     glass = db.Column(db.String(50))
     image = db.Column(db.String(255))
     instructions = db.Column(db.Text)
-    ingredients = db.Column(db.JSON, default=list)
 
     notes = db.relationship(
         "Note",

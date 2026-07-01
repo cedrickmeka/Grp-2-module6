@@ -144,7 +144,7 @@ export default function DrinkDetails() {
       <div style={{ marginTop: "24px" }}>
         <h3>Ingredients</h3>
         <ul>
-          {(cocktail.ingredients ?? []).map((item, index) => (
+          {cocktail.ingredients.map((item, index) => (
             <li key={index} style={{ marginBottom: "6px" }}>{item}</li>
           ))}
         </ul>

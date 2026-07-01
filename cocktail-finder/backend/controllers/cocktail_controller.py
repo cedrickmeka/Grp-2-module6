@@ -54,7 +54,6 @@ def get_one(id):
         "glass": cocktail.glass,
         "image": cocktail.image,
         "instructions": cocktail.instructions,
-        "ingredients": cocktail.ingredients or [],
     })
 
 
