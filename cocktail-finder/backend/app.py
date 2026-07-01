@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 
@@ -32,4 +33,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(port=4000, debug=True)
+    app.run(port=4000, debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true")

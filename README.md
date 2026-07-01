@@ -147,6 +147,6 @@ cocktail-finder/
 * Robert Tumsifu
 * Beatrice Kogei
 * Timothy Kangangi
-* Cedric Meka
+* Cedrick Meka
 
 **React Front-End Development Project © 2026**

@@ -19,6 +19,7 @@ export default function DrinkDetails() {
   const [editingNote, setEditingNote] = useState(null);
   const [error, setError] = useState("");
   const [isFav, setIsFav] = useState(false);
+  const [savingNote, setSavingNote] = useState(false);
 
   useEffect(() => {
     const loadCocktail = async () => {
@@ -72,6 +73,7 @@ export default function DrinkDetails() {
     e.preventDefault();
     if (!noteText.trim()) return;
 
+    setSavingNote(true);
     try {
       if (editingNote) {
         const updated = await updateNote(editingNote.id, noteText.trim());
@@ -84,6 +86,8 @@ export default function DrinkDetails() {
       setNoteText("");
     } catch (err) {
       setError("Unable to save note. Please try again.");
+    } finally {
+      setSavingNote(false);
     }
   };
 
@@ -174,8 +178,8 @@ export default function DrinkDetails() {
             rows={4}
             style={{ width: "100%", padding: "12px", borderRadius: "12px", border: "1px solid #ddd", resize: "vertical" }}
           />
-          <button type="submit" className="btn-save" style={{ width: "fit-content", background: "#6bc67e", color: "white" }}>
-            {editingNote ? "Update Note" : "Add Note"}
+          <button type="submit" className="btn-save" disabled={savingNote} style={{ width: "fit-content", background: "#6bc67e", color: "white", opacity: savingNote ? 0.6 : 1 }}>
+            {savingNote ? "Saving..." : editingNote ? "Update Note" : "Add Note"}
           </button>
           {editingNote && (
             <button type="button" className="btn-save" style={{ width: "fit-content", background: "#ccc", color: "#333" }} onClick={() => { setEditingNote(null); setNoteText(""); }}>
