@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy:vercel": "npx vercel --prod --confirm",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node server/index.js",
