@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.cocktail_controller import (
+from views.cocktail_view import (
     get_all,
     get_categories,
     get_one,
@@ -8,7 +8,7 @@ from controllers.cocktail_controller import (
     remove,
 )
 
-from controllers.note_controller import (
+from views.note_view import (
     get_notes,
     add_note,
 )
