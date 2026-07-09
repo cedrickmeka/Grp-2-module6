@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { fetchCocktails } from "../services/cocktailApi";
+import { fetchCocktails, getFavorites, addFavorite, deleteFavorite } from "../services/cocktailApi";
 import { useAuth } from "../context/AuthContext";
 import DrinkCard from "../components/DrinkCard";
 
@@ -14,6 +14,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     setSearchTerm("");
@@ -46,7 +47,18 @@ export default function Home() {
     };
 
     loadData();
+    getFavorites().then(setFavorites).catch(() => {});
   }, [token, navigate]);
+
+  const handleToggleFavorite = async (cocktailId, favoriteId, category) => {
+    if (favoriteId) {
+      await deleteFavorite(favoriteId);
+      setFavorites((prev) => prev.filter((f) => f.id !== favoriteId));
+    } else {
+      const created = await addFavorite(cocktailId, category);
+      setFavorites((prev) => [...prev, { id: created.id, cocktailId, category }]);
+    }
+  };
 
   const handleSearch = () => {
     setSearchQuery(searchTerm.trim());
@@ -112,13 +124,19 @@ export default function Home() {
         <p style={{ textAlign: "center" }}>No cocktails found.</p>
       ) : (
         <div className="products-grid">
-          {visibleDrinks.map((drink, index) => (
-            <DrinkCard
-              key={drink.id || drink.idDrink}
-              drink={drink}
-              index={index}
-            />
-          ))}
+          {visibleDrinks.map((drink, index) => {
+            const id = drink.id || drink.idDrink;
+            const fav = favorites.find((f) => f.cocktailId === id);
+            return (
+              <DrinkCard
+                key={id}
+                drink={drink}
+                index={index}
+                favoriteId={fav?.id}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            );
+          })}
         </div>
       )}
     </div>

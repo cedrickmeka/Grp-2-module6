@@ -35,10 +35,6 @@ export const fetchCocktails = async (search = "") => {
   return fetchJson(buildUrl(`/api/cocktails/${query}`));
 };
 
-export const fetchCocktailCategories = async () => {
-  return fetchJson(`${BASE_URL}/api/cocktails/categories`);
-};
-
 export const getCocktailById = async (id) => {
   return fetchJson(buildUrl(`/api/cocktails/${id}`));
 };
@@ -87,6 +83,24 @@ export const updateNote = async (noteId, text) => {
 
 export const deleteNote = async (noteId) => {
   return fetchJson(buildUrl(`/api/notes/${noteId}`), {
+    method: "DELETE",
+  });
+};
+
+export const getFavorites = async () => {
+  return fetchJson(buildUrl(`/api/favorites`));
+};
+
+export const addFavorite = async (cocktailId, category = "General") => {
+  return fetchJson(buildUrl(`/api/favorites`), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cocktailId, category }),
+  });
+};
+
+export const deleteFavorite = async (favoriteId) => {
+  return fetchJson(buildUrl(`/api/favorites/${favoriteId}`), {
     method: "DELETE",
   });
 };

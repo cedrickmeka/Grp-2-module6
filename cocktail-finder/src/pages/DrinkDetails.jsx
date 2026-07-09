@@ -7,8 +7,10 @@ import {
   updateNote,
   deleteNote,
   deleteCocktail,
+  getFavorites,
+  addFavorite,
+  deleteFavorite,
 } from "../services/cocktailApi";
-import { isFavorite, toggleFavoriteById } from "../utils/favorites";
 
 export default function DrinkDetails() {
   const { id } = useParams();
@@ -19,7 +21,7 @@ export default function DrinkDetails() {
   const [noteText, setNoteText] = useState("");
   const [editingNote, setEditingNote] = useState(null);
   const [error, setError] = useState("");
-  const [isFav, setIsFav] = useState(false);
+  const [favoriteId, setFavoriteId] = useState(null);
   const [savingNote, setSavingNote] = useState(false);
 
   useEffect(() => {
@@ -27,14 +29,16 @@ export default function DrinkDetails() {
       setLoading(true);
       setError("");
       try {
-        const [data, noteList] = await Promise.all([
+        const [data, noteList, favorites] = await Promise.all([
           getCocktailById(id),
           getCocktailNotes(id),
+          getFavorites(),
         ]);
 
         setCocktail(data);
         setNotes(noteList);
-        setIsFav(isFavorite(id));
+        const fav = favorites.find((f) => String(f.cocktailId) === String(id));
+        setFavoriteId(fav?.id ?? null);
       } catch (err) {
         setError("Cocktail could not be loaded.");
       } finally {
@@ -45,14 +49,14 @@ export default function DrinkDetails() {
     loadCocktail();
   }, [id]);
 
-  const toggleFavorite = () => {
-    const result = toggleFavoriteById(id, {
-      name: cocktail.name,
-      image: cocktail.image,
-      category: cocktail.category,
-      alcoholic: cocktail.alcoholic,
-    });
-    setIsFav(result.isFavorite);
+  const toggleFavorite = async () => {
+    if (favoriteId) {
+      await deleteFavorite(favoriteId);
+      setFavoriteId(null);
+    } else {
+      const created = await addFavorite(id, cocktail.category);
+      setFavoriteId(created.id);
+    }
   };
 
   const handleSubmitNote = async (e) => {
@@ -114,8 +118,8 @@ export default function DrinkDetails() {
         <div style={{ flex: 1, minWidth: "300px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h1 style={{ margin: 0 }}>{cocktail.name}</h1>
-            <button className="btn-save" onClick={toggleFavorite} style={{ background: isFav ? "#ff6b6b" : "#eee", color: isFav ? "white" : "#333" }}>
-              {isFav ? "❤️ Saved" : "🤍 Save"}
+            <button className="btn-save" onClick={toggleFavorite} style={{ background: favoriteId ? "#ff6b6b" : "#eee", color: favoriteId ? "white" : "#333" }}>
+              {favoriteId ? "❤️ Saved" : "🤍 Save"}
             </button>
           </div>
 
