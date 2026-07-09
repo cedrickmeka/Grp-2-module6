@@ -106,7 +106,7 @@ export default function DrinkDetails() {
 
   return (
     <div style={{ maxWidth: "760px", margin: "30px auto", padding: "20px", fontFamily: "sans-serif", border: "1px solid #eee", borderRadius: "10px", background: "#fff" }}>
-      <button className="btn-back" onClick={() => navigate(-1)}>← Back</button>
+      <button className="btn-back" onClick={() => navigate("/")}>← Back</button>
 
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginTop: "20px" }}>
         <img src={cocktail.image} alt={cocktail.name} style={{ width: "100%", maxWidth: "320px", objectFit: "cover", borderRadius: "8px" }} />

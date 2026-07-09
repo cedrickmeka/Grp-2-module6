@@ -1,30 +1,33 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { fetchCocktails } from "../services/cocktailApi";
+import { useAuth } from "../context/AuthContext";
 import DrinkCard from "../components/DrinkCard";
 
 export default function Home() {
+  const { token } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [drinks, setDrinks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const handleSearch = () => {
-    setSearchQuery(searchTerm.trim());
-  };
-
-  const handleSelectSuggestion = (title) => {
-    setSearchTerm(title);
-    setSearchQuery(title);
-  };
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
   useEffect(() => {
+    setSearchTerm("");
+    setSearchQuery("");
+  }, [location.key]);
+
+  useEffect(() => {
+    if (!token) { navigate("/login"); return; }
     const loadData = async () => {
       setLoading(true);
       setError("");
 
       try {
-        const cocktails = await fetchCocktails("Cocktail");
+        const cocktails = await fetchCocktails("");
 
         setDrinks(
           cocktails.filter(
@@ -43,7 +46,16 @@ export default function Home() {
     };
 
     loadData();
-  }, []);
+  }, [token, navigate]);
+
+  const handleSearch = () => {
+    setSearchQuery(searchTerm.trim());
+  };
+
+  const handleSelectSuggestion = (title) => {
+    setSearchTerm(title);
+    setSearchQuery(title);
+  };
 
   const visibleDrinks = searchQuery.trim()
     ? drinks.filter((drink) => {
@@ -71,22 +83,25 @@ export default function Home() {
       </div>
 
       <div className="search-suggestions">
-        <p className="suggestions-label">Cocktail suggestions</p>
+        <p className="suggestions-label" onClick={() => setSuggestionsOpen(o => !o)} style={{ cursor: "pointer", userSelect: "none" }}>
+          Cocktail suggestions {suggestionsOpen ? "▲" : "▼"}
+        </p>
 
-        <ul>
-          {filteredSuggestions.map((drink) => {
-            const title = drink.name || drink.strDrink;
-
-            return (
-              <li
-                key={drink.id || drink.idDrink}
-                onClick={() => handleSelectSuggestion(title)}
-              >
-                {title}
-              </li>
-            );
-          })}
-        </ul>
+        {suggestionsOpen && (
+          <ul>
+            {filteredSuggestions.map((drink) => {
+              const title = drink.name || drink.strDrink;
+              return (
+                <li
+                  key={drink.id || drink.idDrink}
+                  onClick={() => handleSelectSuggestion(title)}
+                >
+                  {title}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {loading ? (
