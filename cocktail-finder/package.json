@@ -8,22 +8,15 @@
     "build": "vite build",
     "deploy:vercel": "npx vercel --prod --confirm",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "server": "node server/index.js",
-    "test:ci": "node test/apiSmokeTest.js",
-    "test:integration": "node test/apiIntegrationTest.js",
-    "start": "concurrently \"npm run server\" \"npm run dev\""
+    "preview": "vite preview"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "concurrently": "^10.0.3",
     "vite": "^4.4.9"
   }
 }
